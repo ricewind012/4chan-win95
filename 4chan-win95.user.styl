@@ -1,0 +1,362 @@
+/* ==UserStyle==
+@name           W9x for 4chan
+@namespace      github.com/openstyles/stylus
+@version        0.1
+@description    Transform 4chan into a Windows 9x interface
+
+@author         (You)
+@homepageURL    https://github.com/2641a40fd44383320adde4b027a1d0b03bd550/4chan-win95
+
+@preprocessor   stylus
+==/UserStyle== */
+
+@-moz-document domain("4chan.org"), domain("4channel.org") {
+	/**
+	 * Variables
+	**/
+	:root {
+		--color-button-text: #000;
+		--color-button-face: #c0c0c0;
+		--color-button-highlight: #fff;
+		--color-button-shadow: #808080;
+		--color-button-shadow-dark: #000;
+		--color-button-checked: #dfdfdf;
+		--color-window-text: #000;
+		--color-window: #fff;
+		--color-active-caption-text: #fff;
+		--color-active-caption: #000080;
+		--color-info-background: #ffffc0;
+		--color-highlight-text: #fff;
+		--color-highlight: #000080;
+		--color-gray-text: #808080;
+		--color-gray-text-dark: #404040;
+		--color-link: #00f;
+		--color-hover: #dfdfff;
+	}
+
+	@css { :root {
+		/* Font */
+		--font-family: MS Sans Serif, MS Reference Sans Serif, Liberation Sans, Tahoma, sans-serif;
+		--font-size: 12px;
+		--font-size-text: 14px;
+		--font-size-bigger: 13px;
+		--font-size-header: 14px;
+		--font-line: 1.2;
+		--font-line-text: 1.2;
+		--font: var(--font-size)/var(--font-line) var(--font-family);
+		--font-text: var(--font-size-text)/var(--font-line-text) var(--font-family);
+		--font-header: var(--font-size-header)/var(--font-line) var(--font-family);
+
+		/* Border */
+		--button-3d-border-color-exact: var(--color-button-face) var(--color-button-shadow) var(--color-button-shadow) var(--color-button-face);
+		--button-3d-box-shadow-exact:
+			0 -1px 0 0 var(--color-button-highlight),
+			-1px 0 0 0 var(--color-button-highlight),
+			-1px -1px 0 0 var(--color-button-highlight),
+			-1px 1px 0 0 var(--color-button-shadow-dark),
+			1px 0 0 0 var(--color-button-shadow-dark),
+			1px 1px 0 0 var(--color-button-shadow-dark);
+		--button-3d-border-color: var(--color-button-highlight) var(--color-button-shadow) var(--color-button-shadow) var(--color-button-highlight);
+		--button-3d-border-color-inverted: var(--color-button-shadow) var(--color-button-highlight) var(--color-button-highlight) var(--color-button-shadow);
+		--button-3d-box-shadow:
+			1px 0 0 var(--color-button-shadow-dark),
+			0 1px 0 var(--color-button-shadow-dark),
+			1px 1px 0 var(--color-button-shadow-dark);
+		--box-3d-border-color: var(--color-button-shadow-dark) var(--color-button-face) var(--color-button-face) var(--color-button-shadow-dark);
+		--box-3d-box-shadow:
+			0 -1px 0 0 var(--color-button-shadow),
+			-1px 0 0 0 var(--color-button-shadow),
+			-1px -1px 0 0 var(--color-button-shadow),
+			-1px 1px 0 0 var(--color-button-highlight),
+			1px 0 0 0 var(--color-button-highlight),
+			1px 1px 0 0 var(--color-button-highlight);
+		--group-3d-border-color: var(--color-button-highlight) var(--color-button-shadow) var(--color-button-shadow) var(--color-button-highlight);
+		--group-3d-box-shadow:
+			0 -1px 0 0 var(--color-button-shadow),
+			-1px 0 0 0 var(--color-button-shadow),
+			-1px -1px 0 0 var(--color-button-shadow),
+			-1px 1px 0 0 var(--color-button-highlight),
+			1px 0 0 0 var(--color-button-highlight),
+			1px 1px 0 0 var(--color-button-highlight);
+		--window-3d-box-shadow:
+			0 -1px 0 0 var(--color-button-face),
+			-1px 0 0 0 var(--color-button-face),
+			-1px -1px 0 0 var(--color-button-face),
+			-1px 1px 0 0 var(--color-button-shadow-dark),
+			1px 0 0 0 var(--color-button-shadow-dark),
+			1px 1px 0 0 var(--color-button-shadow-dark);
+	}}
+
+	/**
+	 * Global
+	**/
+	body {
+		background: none var(--color-window);
+		color: var(--color-window-text);
+		font: var(--font);
+		margin: 8px;
+		padding: 0;
+	}
+	::selection {
+		background: var(--color-highlight);
+		color: var(--color-highlight-text);
+	}
+	a, a:visited,
+	.quotelink {
+		color: var(--color-link) !important;
+		text-decoration: none !important;
+
+		&:hover {
+			color: var(--color-link) !important;
+			text-decoration: underline !important;
+		}
+	}
+	hr {
+		border-top: 1px solid var(--color-button-highlight);
+		box-shadow: 0 -1px 0 0 var(--color-button-shadow);
+  }
+
+	input {
+		/.field,
+		// TODO: arrow button image
+		/select,
+		/textarea,
+		&:not([type]),
+		&[type="url"],
+		&[type="text"],
+		&[type="number"],
+		&[type="search"],
+		&[type="password"] {
+			background-color: var(--color-window) !important;
+			color: var(--color-window-text) !important;
+			font: var(--font) !important;
+			border: 1px solid;
+			border-radius: 0;
+			outline: none;
+			box-shadow: var(--box-3d-box-shadow);
+			padding: 2px !important;
+			margin: 0 2px;
+
+			// Override the bullshit !important
+			&, &:focus {
+				border-color: var(--box-3d-border-color) !important;
+			}
+		}
+		&::placeholder {
+			color: var(--color-gray-text);
+		}
+
+		/button,
+		&[type="button"],
+		&[type="submit"] {
+			background-color: var(--color-button-face);
+			color: var(--color-button-text);
+			font: var(--font);
+			border: 1px solid;
+			border-color: var(--button-3d-border-color-exact) !important;
+			border-radius: 0 !important;
+			box-shadow: var(--button-3d-box-shadow-exact);
+			margin: 1px 2px;
+			cursor: pointer;
+
+			&:active {
+				border-color: var(--color-button-shadow) !important;
+				box-shadow: 0 0 0 1px var(--color-button-shadow-dark);
+			}
+			/*&:focus {
+				outline: dotted 1px var(--color-button-text);
+				outline-offset: -4px;
+			}*/
+		}
+
+		&[type="checkbox"] {
+			appearance: none;
+			background: var(--icon, none) var(--color-window);
+			background-origin: border-box;
+			border: 1px solid;
+			border-color: var(--box-3d-border-color);
+			border-radius: 0;
+			box-shadow: var(--box-3d-box-shadow);
+			margin: 0 2px;
+			width: 16px;
+			height: 16px;
+
+			// TODO: wtf lol
+			&:checked {
+				--icon: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfhCAMUBCfpQP1rAAAAXklEQVQoz6WRQRKAMAgDN0z/bZ+mL8ODdkYK1YPlUCBpwxD4ewTQvQY3pHalvYB3AGyUnoJIKJTXBD1yy20Fss0vdU+0kJjhQPDpLn7wBCeJvNI2tna8eeG+tEqfbp7BxBbVFlKcEwAAAABJRU5ErkJggg==');
+
+				&:disabled {
+					--icon: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfhCAQFIhlrzJIaAAAAV0lEQVQoz6WRuRHAMAgEF40KozOrNDrDgSLxyIFJeBa4GYC/JgDLa/ggMne4CmwAzDPNNuqy3Rus3mCl2IiTG2snEfHRoMEXGzThJKHdHez+C/cWy+c3X2FEDd1+/UfqAAAAAElFTkSuQmCC');
+				}
+			}
+		}
+	}
+	input[type="number"] {
+		/select, & {
+			padding: 0 !important;
+		}
+
+		&::-webkit-inner-spin-button {
+			cursor: pointer; // all I can do /shrug
+		}
+	}
+	label {
+		display: inline-flex;
+		gap: 4px;
+		align-items: center;
+	}
+
+	/**
+	 * Remove elements
+	**/
+	#togglePostFormLink, .qr-link-container, .qr-link-container-bottom, // "Reply to thread"
+	.middlead + hr, .navLinksBot + hr, // Double borders
+	#autohide, // QR header checkbox
+
+	// I do not want to style the footer,
+	// but feel free to return it as an option.
+	#boardNavDesktopFoot, #absbot {
+		display: none;
+	}
+
+	/**
+	 * Content
+	**/
+	.name, .quote {
+		color: #080 !important;
+		font-weight: normal !important;
+	}
+
+	// Bottom
+	.bottomCtrl {
+		margin-top: 0;
+		margin-bottom: 8px;
+	}
+
+	/**
+	 * 4chan X windows
+	**/
+	// Global
+	#overlay {
+		background-color: unset;
+	}
+	.dialog {
+		background-color: var(--color-button-face) !important;
+		color: var(--color-button-text) !important;
+		border: 1px solid !important;
+		border-color: var(--button-3d-border-color) !important;
+		border-radius: 0 !important;
+		box-shadow: var(--window-3d-box-shadow) !important;
+		padding: 0 !important;
+
+		& > .move {
+			background-color: var(--color-active-caption) !important;
+			color: var(--color-active-caption-text) !important;
+			padding: 4px;
+		}
+		.close {
+			background-color: var(--color-button-face);
+			color: var(--color-button-text) !important;
+			border: 1px solid;
+			border-color: var(--button-3d-border-color-exact);
+			box-shadow: var(--button-3d-box-shadow-exact);
+			padding: 0 2px !important;
+			cursor: pointer;
+
+			&:active {
+				border-color: var(--color-button-shadow);
+				box-shadow: 0 0 0 1px var(--color-button-shadow-dark);
+			}
+		}
+	}
+
+	// Settings
+	#fourchanx-settings {
+		padding: 0;
+
+		& > nav {
+			background-color: var(--color-active-caption);
+
+			a {
+				color: var(--color-active-caption-text) !important;
+			}
+		}
+		& > div {
+			padding: 8px;
+		}
+	}
+	.suboption-list > div:last-of-type {
+		background-color: unset !important;
+	}
+	fieldset {
+		border: 1px solid !important;
+		border-color: var(--group-3d-border-color) !important;
+		border-radius: 0 !important;
+		box-shadow: var(--group-3d-box-shadow);
+		padding: 12px 8px 4px 8px !important;
+		margin-top: 2px !important;
+	}
+	legend {
+		background-color: var(--color-button-face);
+	}
+
+	// Menu
+	.entry {
+		font: var(--font) !important;
+		padding: 4px;
+		// TODO done for checkboxes
+		height: 24px;
+		display: flex;
+		align-items: center;
+
+		a& {
+			color: inherit !important;
+			text-decoration: none !important;
+		}
+		&.focused {
+			background-color: var(--color-active-caption) !important;
+			color: var(--color-active-caption-text) !important;
+		}
+	}
+
+	// Quick reply
+	#qr {
+		border-radius: 0;
+		padding: 0;
+
+		// TODO .field above
+		&-filename-container {
+			margin: 0 8px !important;
+		}
+		&-no-file {
+			color: var(--color-gray-text);
+			padding: 0;
+		}
+
+		& > form {
+			padding: 8px;
+		}
+		.persona > input {
+			margin-left: 8px;
+
+			&:first-of-type {
+				margin-left: 0;
+			}
+		}
+		input, textarea {
+			margin: 0;
+		}
+		textarea, .captcha-root {
+			margin-top: 8px;
+		}
+	}
+	#file-n-submit {
+		margin-top: 0;
+		height: unset;
+
+		& > input {
+			background-image: none;
+			width: unset !important;
+		}
+	}
+}
