@@ -37,7 +37,7 @@
 	@css { :root {
 		/* Font */
 		--font-family: MS Sans Serif, MS Reference Sans Serif, Liberation Sans, Tahoma, sans-serif;
-		--font-size: 12px;
+		--font-size: 11px;
 		--font-size-text: 14px;
 		--font-size-bigger: 13px;
 		--font-size-header: 14px;
@@ -101,6 +101,10 @@
 		background: var(--color-highlight);
 		color: var(--color-highlight-text);
 	}
+	:focus {
+		outline: dotted 1px var(--color-button-text);
+		outline-offset: -4px;
+	}
 	a, a:visited,
 	.quotelink {
 		color: var(--color-link) !important;
@@ -118,7 +122,6 @@
 
 	input {
 		/.field,
-		// TODO: arrow button image
 		/select,
 		/textarea,
 		&:not([type]),
@@ -156,54 +159,62 @@
 			border-color: var(--button-3d-border-color-exact) !important;
 			border-radius: 0 !important;
 			box-shadow: var(--button-3d-box-shadow-exact);
-			margin: 1px 2px;
+			margin: 0 6px;
 			cursor: pointer;
 
 			&:active {
 				border-color: var(--color-button-shadow) !important;
 				box-shadow: 0 0 0 1px var(--color-button-shadow-dark);
 			}
-			/*&:focus {
-				outline: dotted 1px var(--color-button-text);
-				outline-offset: -4px;
-			}*/
 		}
 
 		&[type="checkbox"] {
 			appearance: none;
-			background: var(--icon, none) var(--color-window);
-			background-origin: border-box;
+			background: var(--icon, none) var(--color-window) no-repeat center;
 			border: 1px solid;
 			border-color: var(--box-3d-border-color);
 			border-radius: 0;
 			box-shadow: var(--box-3d-box-shadow);
-			margin: 0 2px;
-			width: 16px;
-			height: 16px;
+			outline: none;
+			margin: 0;
+			width: 11px;
+			height: 11px;
 
-			// TODO: wtf lol
 			&:checked {
-				--icon: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfhCAMUBCfpQP1rAAAAXklEQVQoz6WRQRKAMAgDN0z/bZ+mL8ODdkYK1YPlUCBpwxD4ewTQvQY3pHalvYB3AGyUnoJIKJTXBD1yy20Fss0vdU+0kJjhQPDpLn7wBCeJvNI2tna8eeG+tEqfbp7BxBbVFlKcEwAAAABJRU5ErkJggg==');
-
-				&:disabled {
-					--icon: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfhCAQFIhlrzJIaAAAAV0lEQVQoz6WRuRHAMAgEF40KozOrNDrDgSLxyIFJeBa4GYC/JgDLa/ggMne4CmwAzDPNNuqy3Rus3mCl2IiTG2snEfHRoMEXGzThJKHdHez+C/cWy+c3X2FEDd1+/UfqAAAAAElFTkSuQmCC');
-				}
+				--icon:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAA9SURBVBhXbY7RCgAwCAK1//9nV5Gwxu4lz2KMkvCDpGLyohY1w8G8XpKvd9fZzpFFLqpHOJjb+0Mu9iFwAJvmIfrQ4IxiAAAAAElFTkSuQmCC');
+			}
+			&:active {
+				background-color: var(--color-button-face);
 			}
 		}
 	}
 	input[type="number"] {
 		/select, & {
-			padding: 0 !important;
+			//padding: 0 !important;
 		}
 
 		&::-webkit-inner-spin-button {
 			cursor: pointer; // all I can do /shrug
 		}
 	}
+	select {
+		appearance: none;
+		background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAARCAYAAADUryzEAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABUSURBVDhPYzhw/MR/cjEDA8N/sAHkgPaOflQDkE0mBg9nA8CCODBMDQjjdQG6RhBGlgdhgl7ApxmEiQoDXJpBmHaBSCwebgaAOORgsAFQgkzM8B8AcBISjgZpL78AAAAASUVORK5CYII=') var(--color-window) no-repeat 100% !important;
+		padding-right: 18px !important;
+		// TODO
+		height: 19px;
+
+		&:focus {
+			/*background-color: var(--color-active-caption) !important;
+			background-clip: content-box;
+			color: var(--color-active-caption-text) !important;*/
+			outline: none; // unable to do right side, so it conflicts with the arrow
+		}
+	}
 	label {
 		display: inline-flex;
-		gap: 4px;
 		align-items: center;
+		gap: 6px;
 	}
 
 	/**
@@ -231,6 +242,10 @@
 	.bottomCtrl {
 		margin-top: 0;
 		margin-bottom: 8px;
+
+		input[type="checkbox"] {
+			margin-right: 6px;
+		}
 	}
 
 	/**
@@ -284,6 +299,10 @@
 		& > div {
 			padding: 8px;
 		}
+
+		label {
+			display: inline-flex;
+		}
 	}
 	.suboption-list > div:last-of-type {
 		background-color: unset !important;
@@ -294,28 +313,103 @@
 		border-radius: 0 !important;
 		box-shadow: var(--group-3d-box-shadow);
 		padding: 12px 8px 4px 8px !important;
-		margin-top: 2px !important;
+		margin: 0 0 6px 0 !important;
 	}
 	legend {
 		background-color: var(--color-button-face);
+		font-weight: normal !important;
 	}
 
 	// Menu
+	#menu, .focused > .submenu {
+		padding: 1px !important;
+		display: flex;
+		flex-direction: column;
+	}
+	.gallery-link > .submenu > :first-child {
+		order: 101 !important;
+	}
+	.report-link, .copy-text-link {
+		order: 81 !important;
+	}
+	.gallery-link,
+	[title="Fappe Tyme"],
+	[title="Maximum number of replies to show."],
+	[data-type="header"] .submenu > [href="javascript:;"],
+
+	.edit-link,
+	.toggle-you,
+	[data-type="post"] > [style="order: 60;"],
+
+	[title="Show what page watched threads are on."],
+	[title="Only show watched threads from the current board."],
+
+	.gallery-link > .submenu > :nth-child(5),
+	[title="Expand all images along with spoilers."],
+
+	#menu > [style="order: 107;"],
+	#menu > [style="order: 107;"] > .submenu > :nth-child(5),
+
+	[title="Automatically fetch new posts."],
+	[title="Scroll updated posts into view. Only enabled at bottom of page."],
+	#menu > [style="order: 110;"] > .submenu > :last-child {
+		margin-top: 9px !important;
+
+		&::before {
+			content: '';
+			position: absolute;
+			left: 0;
+			top: -5px;
+			width: 100%;
+			height: 1px;
+			background-color: var(--color-button-highlight);
+			box-shadow: 0 -1px 0 0 var(--color-button-shadow);
+		}
+	}
+	// Make the main menu's borders not appear above children
+	#menu > ::before {
+		z-index: -1;
+	}
 	.entry {
 		font: var(--font) !important;
-		padding: 4px;
-		// TODO done for checkboxes
-		height: 24px;
+		padding: 1px;
+		padding-left: 20px;
+		padding-right: calc(0.5em + 12px);
 		display: flex;
 		align-items: center;
 
-		a& {
+		a&, & > a {
 			color: inherit !important;
 			text-decoration: none !important;
 		}
 		&.focused {
 			background-color: var(--color-active-caption) !important;
 			color: var(--color-active-caption-text) !important;
+
+			[name="Prune Replies"],
+			& > input[type="checkbox"] {
+				filter: invert();
+			}
+		}
+		.left > &.has-submenu {
+			padding-right: calc(.5em + 12px) !important;
+		}
+
+		input {
+			&[type="checkbox"] {
+				position: absolute;
+				left: 4px;
+				height: 100%;
+				top: 0;
+				background-color: unset;
+				border: unset;
+				box-shadow: unset;
+			}
+			// TODO makes the height bigger
+			&[type="number"] {
+				margin-left: 4px;
+				margin-right: 0;
+			}
 		}
 	}
 
