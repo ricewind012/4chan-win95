@@ -1,8 +1,10 @@
-# 4chan-win95
+# W9x for 4chan
 think of a better name for me
 
+currently only controls and menus (and partially dialogs) are styled
+
 ## Preview
-![vivaldi_2022-12-28_17-59-43](https://user-images.githubusercontent.com/58827198/209908277-d951c832-7209-462a-b8c1-211436d0752c.png)
+![xterm_2022-12-30_12-31-51](https://user-images.githubusercontent.com/58827198/210100210-c95d1584-1fbf-47e7-bed4-9136eff9b755.png)
 
 ## Credits
 https://github.com/Athari/CssGitHubWindows
