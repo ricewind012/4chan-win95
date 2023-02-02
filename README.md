@@ -1,12 +1,14 @@
 # W9x for 4chan
-think of a better name for me
-
-currently only controls and menus (and partially dialogs) are styled
+Make 4chan look like a native application.
 
 ## Preview
-![xterm_2022-12-30_12-31-51](https://user-images.githubusercontent.com/58827198/210100210-c95d1584-1fbf-47e7-bed4-9136eff9b755.png)
+![Screenshot](https://user-images.githubusercontent.com/58827198/216326383-7cb3f9b8-bb37-47b3-b185-e0087d66708f.png)
+
+## Installation
+- [Userstyle](../../raw/master/4chan-win95.user.styl) (requires [Stylus](https://add0n.com/stylus.html))
+- [Userscript](../../raw/master/4chan-win95.user.js) (requires [Violentmonkey](https://violentmonkey.github.io) or [Tampermonkey](https://www.tampermonkey.net))
+
+The userscript is optional and currently only affects the settings dialog.
 
 ## Credits
 https://github.com/Athari/CssGitHubWindows
-
-https://github.com/grassmunk/Chicago95

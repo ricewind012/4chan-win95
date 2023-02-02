@@ -34,28 +34,29 @@ pseudoelement() {
 		--color-active-caption-text: #fff;
 		--color-active-caption: #000080;
 		--color-info-background: #ffffc0;
+		--color-tree-border: #87888f;
 		--color-highlight-text: #fff;
 		--color-highlight: #000080;
 		--color-gray-text: #808080;
 		--color-gray-text-dark: #404040;
 		--color-link: #00f;
 		--color-hover: #dfdfff;
-	}
 
-	@css { :root {
-		/* Font */
-		--font-family: MS Sans Serif, MS Reference Sans Serif, Liberation Sans, Tahoma, sans-serif;
+		// Font
+		--font-family: 'MS Sans Serif', 'MS Reference Sans Serif', 'Liberation Sans', Tahoma, sans-serif;
+		--font-family-monospace: 'Fixedsys Excelsior 3.01', 'MS Gothic', 'MS Mincho', 'MS PGothic', 'MS PMincho', monospace;
 		--font-size: 11px;
 		--font-size-text: 14px;
 		--font-size-bigger: 13px;
 		--font-size-header: 14px;
 		--font-line: 1.2;
 		--font-line-text: 1.2;
-		--font: var(--font-size)/var(--font-line) var(--font-family);
-		--font-text: var(--font-size-text)/var(--font-line-text) var(--font-family);
-		--font-header: var(--font-size-header)/var(--font-line) var(--font-family);
+		--font: var(--font-size)\/var(--font-line) var(--font-family);
+		--font-monospace: var(--font-size)\/var(--font-line) var(--font-family-monospace);
+		--font-text: var(--font-size-text)\/var(--font-line-text) var(--font-family);
+		--font-header: var(--font-size-header)\/var(--font-line) var(--font-family);
 
-		/* Border */
+		// Border
 		--button-3d-border-color-exact: var(--color-button-face) var(--color-button-shadow) var(--color-button-shadow) var(--color-button-face);
 		--button-3d-box-shadow-exact:
 			0 -1px 0 0 var(--color-button-highlight),
@@ -93,7 +94,7 @@ pseudoelement() {
 			-1px 1px 0 0 var(--color-button-shadow-dark),
 			1px 0 0 0 var(--color-button-shadow-dark),
 			1px 1px 0 0 var(--color-button-shadow-dark);
-	}}
+	}
 
 	/**
 	 * Global
@@ -113,6 +114,9 @@ pseudoelement() {
 	:focus {
 		outline: dotted 1px var(--color-button-text);
 		outline-offset: -4px;
+	}
+	.fa::before {
+		font-size: var(--font-size);
 	}
 	a, a:visited,
 	.quotelink {
@@ -214,6 +218,7 @@ pseudoelement() {
 		}
 		&[type="radio"] {
 			background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMAgMAAAArG7R0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAMUExURf///wAAAIeIj////88rXQEAAAABdFJOUwBA5thmAAAALElEQVQI12NgWMXAwBW6gEH1fwyD+v8zDPP/f0bBIDGF/zwM/AwfGBj+MwAA5NMUe8YWpVIAAAAASUVORK5CYII=');
+			border: none;
 			width: 12px;
 			height: 12px;
 
@@ -315,7 +320,18 @@ pseudoelement() {
 		text-decoration: none !important;
 		display: inline-flex;
 		align-items: center;
-		gap: 6px;
+		gap: 7px;
+		position: relative;
+		cursor: default;
+
+		&:has(:focus)::before {
+			content: '';
+			position: absolute;
+			left: 17px;
+			right: -3px;
+			height: 100%;
+			outline: dotted 1px var(--color-button-text);
+		}
 	}
 
 	::-webkit-scrollbar {
@@ -340,15 +356,15 @@ pseudoelement() {
 			box-shadow:
 				inset 1px 1px 0 var(--color-button-highlight),
 				inset -1px -1px 0 var(--color-button-shadow);
-		}
-
-		&-button {
-			background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAECAYAAABCxiV9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAtSURBVBhXY/z//z8DDDAygrj/GaFcBiYoDZZApkEALIksAAJwhUCMIoEADAwA3ckMC4nTcHYAAAAASUVORK5CYII=');
 
 			&:active {
 				border-color: var(--color-button-shadow);
 				box-shadow: 0 0 0 1px var(--color-button-shadow-dark);
 			}
+		}
+
+		&-button {
+			background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAECAYAAABCxiV9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAtSURBVBhXY/z//z8DDDAygrj/GaFcBiYoDZZApkEALIksAAJwhUCMIoEADAwA3ckMC4nTcHYAAAAASUVORK5CYII=');
 
 			&:increment {
 				background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAECAYAAABCxiV9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAArSURBVBhXY2RgYPgPxFgB0////0EKMABInAnGAItAAYwPlgQBmABCIQMDAIflEvtEtJMHAAAAAElFTkSuQmCC');
@@ -372,14 +388,18 @@ pseudoelement() {
 	/**
 	 * Remove elements
 	**/
+	// Content
 	#togglePostFormLink, .qr-link-container, .qr-link-container-bottom, // "Reply to thread"
-	.middlead + hr, .navLinksBot + hr, // Double borders
-	#autohide, // QR header checkbox
 
-	// I do not want to style the footer,
-	// but feel free to return it as an option.
+	// Dialogs
+	[href="https://gitreports.com/issue/ccd0/4chan-x"], // Dead link
+	.middlead + hr, .navLinksBot + hr, // Double borders
+	#qr select, #autohide, // QR header select & checkbox
+
+	// I do not want to style the footer for now,
+	// but feel free to return it as an option later.
 	#boardNavDesktopFoot, #absbot {
-		display: none;
+		display: none !important;
 	}
 
 	/**
@@ -390,7 +410,6 @@ pseudoelement() {
 		font-weight: normal !important;
 	}
 
-	// Bottom
 	.bottomCtrl {
 		margin-top: 0;
 		margin-bottom: 8px;
@@ -401,7 +420,7 @@ pseudoelement() {
 	}
 
 	/**
-	 * 4chan X windows
+	 * 4chan X dialogs
 	**/
 	// Global
 	#overlay {
@@ -414,21 +433,31 @@ pseudoelement() {
 		border-color: var(--button-3d-border-color) !important;
 		border-radius: 0 !important;
 		box-shadow: var(--window-3d-box-shadow) !important;
-		padding: 0 !important;
+		padding: 1px !important;
 
-		& > .move {
+		& > .move,
+		& > nav::before {
 			background-color: var(--color-active-caption) !important;
 			color: var(--color-active-caption-text) !important;
-			padding: 4px;
+			font-weight: 700;
+			padding: 2px !important;
+			height: 14px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
 		}
 		.close {
-			background-color: var(--color-button-face);
-			color: var(--color-button-text) !important;
+			// TODO: sometimes it doesn't need 1px, magic happens
+			background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAHAQMAAAAPl54dAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAAGUExURf///wAAAFXC034AAAABdFJOUwBA5thmAAAAFElEQVQI12M4zJDGYMMgAcRpDIcBFDwC4+02LWIAAAAASUVORK5CYII=') var(--color-button-face) no-repeat center 1px;
+			font-size: 0;
 			border: 1px solid;
 			border-color: var(--button-3d-border-color-exact);
 			box-shadow: var(--button-3d-box-shadow-exact);
-			padding: 0 2px !important;
-			cursor: pointer;
+			padding: 0 !important;
+			margin-right: 1px;
+			width: 12px;
+			height: 10px;
+			cursor: default;
 
 			&:active {
 				border-color: var(--color-button-shadow);
@@ -436,40 +465,353 @@ pseudoelement() {
 			}
 		}
 	}
+	.statusbar {
+		box-shadow: var(--box-3d-box-shadow);
+		padding: 1px 15px 1px 2px;
+		display: flex;
+		justify-content: space-between;
+	}
+	// TODO: maybe make it a wiki link or something
+	// https://github.com/ccd0/4chan-x/wiki
+	[href="https://www.4chan-x.net/"] {
+		top: -14px;
+		box-sizing: border-box;
+
+		/#t-help, & {
+			background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAJAQMAAAArVM/eAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAAGUExURf///wAAAFXC034AAAABdFJOUwBA5thmAAAAFElEQVQI12OoYDgDhBIMBkDIACIBIyIC6Wx0X1sAAAAASUVORK5CYII=') var(--color-button-face) no-repeat center 0;
+			font-size: 0 !important;
+			padding: 0 !important;
+			width: 14px !important;
+			height: 12px !important;
+			position: absolute;
+			right: 22px;
+			z-index: 1;
+		}
+		/#t-help, .win95-userscript & {
+			top: 4px;
+		}
+	}
 
 	// Settings
 	#fourchanx-settings {
 		padding: 0;
+		min-width: 438px;
+		max-width: 100vh;
+		height: 75vh;
+		position: relative;
+		resize: both;
+		overflow: auto;
 
 		& > nav {
-			background-color: var(--color-active-caption);
+			padding: 8px 10px;
+			padding-bottom: 0;
+			margin-top: 17px;
+			position: relative;
+			z-index: 1;
 
-			a {
-				color: var(--color-active-caption-text) !important;
+			&::before {
+				content: 'Settings';
+				position: absolute;
+				left: 0;
+				top: -17px;
+				right: 0;
 			}
 		}
-		& > div {
-			padding: 8px;
+		.close {
+			position: absolute;
+			top: -14px;
+			right: 3px;
+			height: 9px;
+			padding-bottom: 1px !important;
+
+			&::before {
+				display: none;
+			}
 		}
 
 		label {
 			display: inline-flex;
 		}
+		textarea {
+			margin-top: 12px;
+		}
 	}
-	.suboption-list > div:last-of-type {
-		background-color: unset !important;
+	.section-container {
+		padding: 0;
+		margin: 8px;
+		margin-top: 1px;
+		border: 1px solid;
+		border-color: var(--button-3d-border-color);
+		box-shadow: var(--window-3d-box-shadow);
+		position: unset;
+
+		& > section {
+			margin: 14px;
+		}
 	}
+	.sections-list {
+		font-size: 0;
+		display: flex;
+		align-items: end;
+
+		& > a {
+			--color-tab-border: var(--color-button-highlight);
+			background-color: var(--color-button-face);
+			color: var(--color-button-text) !important;
+			font-size: var(--font-size);
+			font-weight: normal;
+			text-decoration: none !important;
+			border: 1px solid;
+			border-bottom: none;
+			border-color: var(--button-3d-border-color);
+			border-radius: 2px 2px 0 0;
+			box-shadow:
+				1px 0 var(--color-button-shadow-dark),
+				1px 1px var(--color-tab-border);
+			// TODO: the text moves left/right for some reason
+			margin: 0 1px -1px 0;
+			padding: 2px 6px;
+			cursor: default;
+		}
+		& > .tab-selected {
+			--color-tab-border: var(--color-button-face);
+			margin: 0 0 -1px -2px;
+			padding: 3px 6px;
+			z-index: 1;
+		}
+	}
+	.credits {
+		font-size: 0;
+		display: flex;
+		align-items: center;
+		gap: 3px;
+		margin-right: -5px;
+		margin-top: -3px;
+
+		.win95-userscript & {
+			margin: 8px;
+			margin-top: 0;
+
+			& > .close {
+				top: 4px !important;
+				z-index: 1;
+			}
+		}
+
+		& > a {
+			font-size: var(--font-size);
+		}
+	}
+	#sauce-doc > label,
+	[href="https://www.4chan-x.net/"],
+	.export,
+	.import,
+	.reset {
+		background-color: var(--color-button-face);
+		border: 1px solid;
+		border-color: var(--button-3d-border-color-exact);
+		box-shadow: var(--button-3d-box-shadow-exact);
+		padding: 3px 0;
+		width: 74px;
+		height: fit-content;
+		display: flex;
+		justify-content: center;
+		cursor: default;
+
+		&,
+		&:hover {
+			color: var(--color-button-text) !important;
+			text-decoration: none !important;
+		}
+		&:active {
+			border-color: var(--color-button-shadow);
+			box-shadow: 0 0 0 1px var(--color-button-shadow-dark);
+		}
+	}
+	.reset {
+		font-size: 0 !important;
+
+		&::before {
+			content: 'Reset';
+			font: var(--font);
+		}
+
+		&,
+		/.export,
+		/.import {
+			&::after {
+				content: '...';
+				font: var(--font);
+			}
+		}
+	}
+
 	fieldset {
-		border: 1px solid !important;
 		border-color: var(--group-3d-border-color) !important;
 		border-radius: 0 !important;
 		box-shadow: var(--group-3d-box-shadow);
 		padding: 12px 8px 4px 8px !important;
 		margin: 0 0 6px 0 !important;
+		position: relative;
 	}
 	legend {
 		background-color: var(--color-button-face);
 		font-weight: normal !important;
+	}
+	.description {
+		color: var(--color-gray-text);
+		margin: 2px 0 4px 12px;
+		display: block;
+
+		button + & {
+			margin-left: 1px;
+			display: unset;
+		}
+
+		&::before {
+			content: ': ';
+			position: absolute;
+			background-color: var(--color-button-face);
+			color: transparent;
+		}
+	}
+	.suboption-list {
+		&::before {
+			border-left: 1px dotted var(--color-tree-border) !important;
+			left: 5px;
+			top: calc(var(--font-size) * -1 - 8px);
+			height: calc(100% - var(--font-size));
+		}
+
+		& > div {
+			padding-left: 20px;
+
+			&::before {
+				left: 5px;
+				width: 12px;
+				height: 6px;
+				border-bottom: 1px dotted var(--color-tree-border) !important;
+				border-left: none;
+			}
+
+			&:last-of-type {
+				background-color: unset !important;
+			}
+		}
+		// TODO expensive
+		& > div:not(:has(> &)):last-of-type::before {
+			border-left: 1px dotted var(--color-tree-border) !important;
+		}
+		& > div > &::after {
+			content: '';
+			position: absolute;
+			left: -15px;
+			top: -26px;
+			width: 1px;
+			height: 100%;
+			background-color: var(--color-button-face);
+		}
+	}
+	[data-name="Stubs"] + div > button {
+		margin: 0;
+	}
+	.section {
+		&-filter, &-sauce {
+			height: calc(100% - 28px);
+
+			textarea {
+				margin-top: 0 !important;
+				height: 100%;
+				resize: none !important;
+			}
+		}
+		&-sauce, &-advanced {
+			ul {
+				list-style-type: disc;
+			}
+			li {
+				margin-left: 20px;
+			}
+		}
+		&-filter {
+			& > div {
+				height: 100%;
+				position: relative;
+			}
+			& > select {
+				position: absolute;
+				top: 24px;
+				right: 8px;
+
+				.win95-userscript & {
+					top: unset;
+					bottom: 25px;
+				}
+			}
+		}
+		&-advanced .note {
+			background-color: var(--color-info-background);
+			border: 1px solid var(--color-button-shadow-dark);
+			box-shadow: inset 0 0 0 1px #c0c7c8;
+			font: var(--font);
+			padding: 8px 16px;
+			margin: 0;
+
+			& + :not([class])::before {
+				content: '';
+				display: block;
+				border-top: 1px solid var(--color-button-highlight);
+				box-shadow: 0 -1px 0 0 var(--color-button-shadow);
+				margin-top: 4px;
+				margin-bottom: 5px;
+			}
+		}
+	}
+	#sauce-doc {
+		max-height: 100% !important;
+
+		& > label {
+			font-size: 0;
+			margin: 0;
+			gap: 0;
+			position: absolute;
+			right: 10px;
+			bottom: 24px;
+
+			&::before {
+				content: 'Show Field';
+				font: var(--font);
+			}
+		}
+
+		&-expand:not(:checked) ~ textarea,
+		&-expand:checked + & > :not(label) {
+			display: none;
+		}
+		&-expand:checked + & > label::before {
+			content: 'Show Guide';
+		}
+	}
+	#update-archives {
+		margin-left: 2px;
+		margin-top: 6px;
+	}
+	#lastarchivecheck + label {
+		margin-left: 6px;
+	}
+	#apply-css {
+		position: absolute;
+		top: 6px;
+		right: 0;
+	}
+	legend {
+		& + div:not(:last-child) > .field {
+			margin-bottom: 12px;
+		}
+		& + textarea,
+		& + div > textarea {
+			margin-top: 0 !important;
+		}
 	}
 
 	// Menu
@@ -485,7 +827,7 @@ pseudoelement() {
 		order: 81 !important;
 	}
 	.gallery-link,
-	[title="Fappe Tyme"],
+	[title="Fappe Tyme"]:not(:first-child),
 	[title="Maximum number of replies to show."],
 	[data-type="header"] .submenu > [href="javascript:;"],
 
@@ -570,9 +912,24 @@ pseudoelement() {
 		border-radius: 0;
 		padding: 0;
 
-		// TODO .field above
-		&-filename-container {
-			margin: 0 8px !important;
+		&-filename,
+		&-no-file {
+			margin-right: 2px !important;
+		}
+		&-filename {
+			box-shadow: none;
+			padding: 0 !important;
+			margin: 0;
+			height: unset;
+
+			&-container {
+				font: var(--font);
+				height: 19px;
+
+				& > a {
+					margin-right: 4px;
+				}
+			}
 		}
 		&-no-file {
 			color: var(--color-gray-text);
@@ -582,27 +939,124 @@ pseudoelement() {
 		& > form {
 			padding: 8px;
 		}
-		.persona > input {
-			margin-left: 8px;
+		.persona {
+			margin-right: -2px !important;
+			width: unset;
 
-			&:first-of-type {
-				margin-left: 0;
+			& > input {
+				&:first-of-type {
+					margin-left: 0;
+				}
 			}
 		}
-		input, textarea {
-			margin: 0;
-		}
-		textarea, .captcha-root {
-			margin-top: 8px;
+		textarea {
+			margin-top: 4px !important;
+			min-width: 100%;
+
+			/input, & {
+				margin: 0;
+			}
 		}
 	}
+	#dump-button {
+		margin-right: 0 !important;
+	}
 	#file-n-submit {
-		margin-top: 0;
+		margin: 0 -6px;
 		height: unset;
 
 		& > input {
 			background-image: none;
-			width: unset !important;
+			width: 74px !important;
+		}
+	}
+	.captcha {
+		&-root {
+			margin-top: 6px;
+		}
+		&-root,
+		&-container {
+			position: unset !important;
+		}
+	}
+	#t {
+		&-load {
+			padding: 3px 0 !important;
+			margin-right: 6px !important;
+			width: 74px !important;
+			height: unset !important;
+			vertical-align: bottom !important;
+		}
+		&-resp {
+			height: 19px !important;
+		}
+		&-cnt {
+			margin: 6px auto !important;
+		}
+	}
+
+	// Thread watcher
+	#thread-watcher {
+		.close {
+			position: unset !important;
+		}
+		.fa::before {
+			display: none;
+		}
+		.refresh,
+		.menu-button {
+			background: var(--color-button-face) no-repeat center;
+			border: 1px solid;
+			border-color: var(--button-3d-border-color-exact);
+			box-shadow: var(--button-3d-box-shadow-exact);
+			padding: 0;
+			width: 12px;
+			height: 10px;
+			position: absolute;
+			cursor: default;
+
+			&:active {
+				border-color: var(--color-button-shadow);
+				box-shadow: 0 0 0 1px var(--color-button-shadow-dark);
+			}
+		}
+		.refresh {
+			// TODO: this one is 1/2px off
+			background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMAQMAAABsu86kAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAGUExURQAAAAAAAKVnuc8AAAACdFJOU/8A5bcwSgAAAAlwSFlzAAAOwgAADsIBFShKgAAAACpJREFUCB0FwcEJACAQBLEp2dKuHRHBEua7iJwJLVciR6asYhcpHESetB+DMhVDC4r9+gAAAABJRU5ErkJggg==');
+			right: 38px;
+		}
+		.menu-button {
+			background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAECAYAAABCxiV9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAAkSURBVBhXY2RgYPgPxFgBSBIEsClghEmCALICZHE4QFLAwAAA+twEAr6ulF8AAAAASUVORK5CYII=');
+			background-position-x: 2px;
+			right: 22px;
+		}
+	}
+	#watcher-status {
+		position: absolute;
+		right: 56px;
+	}
+	#watched-threads {
+		background-color: var(--color-window);
+		border: 1px solid;
+		border-color: var(--box-3d-border-color);
+		box-shadow: var(--box-3d-box-shadow);
+		margin: 8px;
+
+		&,
+		& > div {
+			padding: 0;
+		}
+		.current {
+			background-color: var(--color-highlight);
+			color: var(--color-highlight-text);
+			font-weight: normal;
+		}
+		.watcher-link {
+			// TODO: not sure if this should be link-colored
+			color: inherit !important;
+			padding: 0 3px;
+			width: 100%;
+			align-items: center;
 		}
 	}
 }
