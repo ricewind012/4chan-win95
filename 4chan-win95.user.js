@@ -1,14 +1,19 @@
 // ==UserScript==
 // @name        4chan-win95 settings stuff
+// @description Various actions with the settings dialog
 // @version     0.3
+// @author      (You)
 //
-// @match       *://boards.4chan.org/*
+// @namespace   https://github.com/2641a40fd44383320adde4b027a1d0b03bd550/4chan-win95
+// @homepageURL https://github.com/2641a40fd44383320adde4b027a1d0b03bd550/4chan-win95
+// @supportURL  https://github.com/2641a40fd44383320adde4b027a1d0b03bd550/4chan-win95/issues
+// @downloadURL https://github.com/2641a40fd44383320adde4b027a1d0b03bd550/4chan-win95/raw/master/4chan-win95.user.js
+// @updateURL   https://github.com/2641a40fd44383320adde4b027a1d0b03bd550/4chan-win95/raw/master/4chan-win95.user.js
+//
 // @match       *://boards.4channel.org/*
+// @match       *://boards.4chan.org/*
 // @run-at      document-idle
 // @grant       none
-//
-// @author      (You)
-// @description Various actions with the settings dialog
 // ==/UserScript==
 
 const $ = s => document.querySelector(s)
