@@ -8,7 +8,8 @@ Make 4chan look like a native application.
 - [Userstyle](../../raw/master/4chan-win95.user.styl) (requires [Stylus](https://add0n.com/stylus.html))
 - [Userscript](../../raw/master/4chan-win95.user.js) (requires [Violentmonkey](https://violentmonkey.github.io) or [Tampermonkey](https://www.tampermonkey.net))
 
-The userscript is optional and currently only affects the settings dialog.
+The userscript is optional, but recommended for a better look.
+**NOTE**: Currently breaks the post preview on hover.
 
 ## Credits
 https://github.com/Athari/CssGitHubWindows

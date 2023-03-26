@@ -101,12 +101,15 @@ pseudoelement() {
 	 * Global
 	**/
 	body {
-		background: none var(--color-window);
+		//background: none var(--color-window);
 		image-rendering: pixelated;
-		color: var(--color-window-text);
+		//color: var(--color-window-text);
 		font: var(--font);
 		margin: 8px;
 		padding: 0;
+	}
+	.bottomCtrl {
+		padding-bottom: 8px;
 	}
 	::selection {
 		background: var(--color-highlight);
@@ -142,6 +145,7 @@ pseudoelement() {
 	// Controls
 	input, button, select, textarea {
 		appearance: none;
+		filter: none !important; // Tomorrow theme fix
 		box-sizing: border-box;
 		font: var(--font) !important;
 		border: 1px solid;
@@ -342,10 +346,19 @@ pseudoelement() {
 		);
 		background-size: 2px 2px;
 
-		&,
 		&-button {
-			width: 16px;
-			height: 16px;
+			../, & {
+				width: 16px;
+				height: 16px;
+			}
+
+			&:vertical,
+			&:horizontal {
+				&:start:increment,
+				&:end:decrement {
+					display: none;
+				}
+			}
 		}
 		&-button,
 		&-thumb {
@@ -389,44 +402,18 @@ pseudoelement() {
 	/**
 	 * Remove elements
 	**/
-	// Content
-	#togglePostFormLink, .qr-link-container, .qr-link-container-bottom, // "Reply to thread"
-
 	// Dialogs
 	[href="https://gitreports.com/issue/ccd0/4chan-x"], // Dead link
 	.middlead + hr, .navLinksBot + hr, // Double borders
-	#qr select, #autohide, // QR header select & checkbox
-
-	// I do not want to style the footer for now,
-	// but feel free to return it as an option later.
-	#boardNavDesktopFoot, #absbot {
+	#qr select, #autohide // QR header select & checkbox
+	{
 		display: none !important;
-	}
-
-	/**
-	 * Content
-	**/
-	.name, .quote {
-		color: #080 !important;
-		font-weight: normal !important;
-	}
-
-	.bottomCtrl {
-		margin-top: 0;
-		margin-bottom: 8px;
-
-		input[type="checkbox"] {
-			margin-right: 6px;
-		}
 	}
 
 	/**
 	 * 4chan X dialogs
 	**/
 	// Global
-	#overlay {
-		background-color: unset;
-	}
 	.dialog {
 		background-color: var(--color-button-face) !important;
 		color: var(--color-button-text) !important;
@@ -466,12 +453,6 @@ pseudoelement() {
 			}
 		}
 	}
-	.statusbar {
-		box-shadow: var(--box-3d-box-shadow);
-		padding: 1px 15px 1px 2px;
-		display: flex;
-		justify-content: space-between;
-	}
 	// TODO: maybe make it a wiki link or something
 	// https://github.com/ccd0/4chan-x/wiki
 	[href="https://www.4chan-x.net/"] {
@@ -494,6 +475,9 @@ pseudoelement() {
 	}
 
 	// Settings
+	#overlay {
+		background-color: unset;
+	}
 	#fourchanx-settings {
 		padding: 0;
 		min-width: 438px;
@@ -861,9 +845,15 @@ pseudoelement() {
 			box-shadow: 0 -1px 0 0 var(--color-button-shadow);
 		}
 	}
-	// Make the main menu's borders not appear above children
-	#menu > ::before {
-		z-index: -1;
+	#menu {
+		#header-bar & {
+			top: calc(var(--font-size) * var(--font-line) + 5px) !important;
+		}
+
+		// Make the main menu's borders not appear above children
+		& > ::before {
+			z-index: -1;
+		}
 	}
 	.entry {
 		font: var(--font) !important;
@@ -1060,4 +1050,171 @@ pseudoelement() {
 			align-items: center;
 		}
 	}
+
+	// Header
+	#header-bar {
+		font: var(--font) !important;
+		border: none !important;
+		box-shadow: none !important;
+		display: flex;
+		justify-content: space-between;
+	}
+	.brackets-wrap {
+		&::before, &::after {
+			content: '';
+		}
+	}
+	.shortcut {
+		margin: 0;
+		/*
+		 * Chicago95 has a 2px border above the titlebar,
+		 * but Windows 95 has 1px width.
+		 */
+		margin-top: -2px;
+
+		&,
+		& > a {
+			display: inline-block;
+		}
+
+		&:active,
+		&:has(> #menu) {
+			background-color: var(--color-active-caption);
+			color: var(--color-active-caption-text) !important;
+		}
+
+		& > a {
+			opacity: 1 !important;
+			color: unset !important;
+			text-decoration: none !important;
+			padding: 3px 6px 2px 6px !important;
+		}
+	}
+	.win95-userscript {
+		#board-list {
+			text-align: right;
+			order: 1;
+			flex-grow: 1;
+		}
+		#custom-board-list {
+			font: var(--font);
+			display: block !important;
+		}
+		#full-board-list {
+			position: fixed;
+			right: 0;
+			flex-direction: row;
+			@extend .dialog
+			@extend #menu
+			@extend #header-bar #menu
+		}
+		.boardList {
+			overflow: auto hidden;
+
+			& > span {
+				display: none;
+			}
+			& > a {
+				margin: 0 !important;
+			}
+		}
+
+		#shortcut {
+			/#yous, &-updater, &-stats {
+				position: fixed;
+				bottom: 2px;
+			}
+			&-updater {
+				left: 3px;
+			}
+			&-stats {
+				left: calc(3px + 15ch);
+			}
+		}
+	}
+	#yous {
+		// Align to the right, until separators are implemented
+		right: 3px;
+	}
+	#update {
+		&r {
+			text-align: left !important;
+		}
+		&-status {
+			width: 3ch;
+			display: inline-block;
+		}
+		&-timer {
+			margin-left: 1ch;
+
+			&:not(.empty)::after {
+				content: ' seconds';
+				white-space: pre;
+			}
+		}
+	}
+	#post-count::after {
+		content: ' posts';
+	}
+	#file-count::after {
+		content: ' files';
+	}
+	#ip-count::after {
+		content: ' IPs';
+	}
+	#page-count::before {
+		content: 'Page ';
+	}
+
+	// Content
+	#content {
+		border: 2px solid transparent;
+		padding: 8px;
+		margin-bottom: calc(var(--font-size) * var(--font-line) + 6px);
+		overflow: auto;
+
+		/.win95-userscript > body::after, &::before, &::after {
+			content: '';
+			position: fixed;
+			left: 0;
+			right: 0;
+			bottom: 0;
+		}
+		&::before {
+			top: calc(var(--font-size) * var(--font-line) + 5px);
+			bottom: calc(var(--font-size) * var(--font-line) + 6px);
+			box-shadow:
+				inset -1px -1px var(--color-window),
+				inset 1px 1px var(--color-button-shadow),
+				inset -2px -2px #bbc3c4,
+				inset 2px 2px var(--color-button-shadow-dark);
+			pointer-events: none;
+		}
+		&::after {
+			left: 1px;
+			right: 1px;
+			bottom: 1px;
+			height: calc(var(--font-size) * var(--font-line));
+			border: 1px solid var(--button-3d-border-color-inverted);
+		}
+	}
+	.win95-userscript > body::after {
+		bottom: calc(var(--font-size) * var(--font-line) + 4px);
+		height: 2px;
+		background-color: var(--color-button-face);
+	}
+
+	// Statusbars
+	.statusbar {
+		display: flex;
+		justify-content: space-between;
+
+		/#content::after, & {
+			background-color: var(--color-button-face);
+			color: var(--color-button-text);
+			box-shadow: var(--box-3d-box-shadow);
+			padding: 1px 15px 1px 2px;
+		}
+	}
 }
+
