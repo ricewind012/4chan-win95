@@ -8,8 +8,11 @@ Make 4chan look like a native application.
 - [Userstyle](../../raw/master/4chan-win95.user.styl) (requires [Stylus](https://add0n.com/stylus.html))
 - [Userscript](../../raw/master/4chan-win95.user.js) (requires [Violentmonkey](https://violentmonkey.github.io) or [Tampermonkey](https://www.tampermonkey.net))
 
-The userscript is optional, but recommended for a better look.
-**NOTE**: Currently breaks the post preview on hover.
+The userscript is *not* optional, but nothing will break if you don't use it. In order to make it work, you will have to make it load before 4chan X.
+
+### Userscript caveats
+- The page may reload multiple times before it loads correctly.
+- Upon loading, jumping to the latest position is broken.
 
 ## Credits
 https://github.com/Athari/CssGitHubWindows

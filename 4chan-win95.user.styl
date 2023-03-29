@@ -402,7 +402,6 @@ pseudoelement() {
 	/**
 	 * Remove elements
 	**/
-	// Dialogs
 	[href="https://gitreports.com/issue/ccd0/4chan-x"], // Dead link
 	.middlead + hr, .navLinksBot + hr, // Double borders
 	#qr select, #autohide // QR header select & checkbox
@@ -413,6 +412,10 @@ pseudoelement() {
 	/**
 	 * 4chan X dialogs
 	**/
+	.new {
+		color: green !important;
+	}
+
 	// Global
 	.dialog {
 		background-color: var(--color-button-face) !important;
@@ -1058,10 +1061,11 @@ pseudoelement() {
 		box-shadow: none !important;
 		display: flex;
 		justify-content: space-between;
-	}
-	.brackets-wrap {
-		&::before, &::after {
-			content: '';
+
+		.brackets-wrap {
+			&::before, &::after {
+				content: '';
+			}
 		}
 	}
 	.shortcut {
@@ -1077,7 +1081,7 @@ pseudoelement() {
 			display: inline-block;
 		}
 
-		&:active,
+		&:not(#shortcut-updater):active,
 		&:has(> #menu) {
 			background-color: var(--color-active-caption);
 			color: var(--color-active-caption-text) !important;
@@ -1099,14 +1103,27 @@ pseudoelement() {
 		#custom-board-list {
 			font: var(--font);
 			display: block !important;
+
+			&[hidden] > .show-board-list-button {
+				font-size: 0;
+
+				&::before {
+					content: '-';
+					font: var(--font);
+				}
+			}
 		}
 		#full-board-list {
 			position: fixed;
 			right: 0;
 			flex-direction: row;
+			width: 25%;
 			@extend .dialog
 			@extend #menu
 			@extend #header-bar #menu
+		}
+		.hide-board-list-container {
+			display: none;
 		}
 		.boardList {
 			overflow: auto hidden;
@@ -1120,36 +1137,77 @@ pseudoelement() {
 		}
 
 		#shortcut {
+			&-settings > a::after {
+				content: ' Dialog';
+			}
+			&-menu i {
+				font: var(--font);
+				border: none;
+				margin: 0;
+				@extend .shortcut > a
+
+				&::after {
+					content: 'Header Menu';
+				}
+			}
+
 			/#yous, &-updater, &-stats {
 				position: fixed;
 				bottom: 2px;
+
+				// TODO: maybe not make them move depending on text
+				/#update-status, & {
+					&::after {
+						content: '';
+						position: absolute;
+						right: -7px;
+						bottom: -2px;
+						width: 2px;
+						height: calc(100% + 2px);
+						border: 1px solid;
+						border-color: var(--color-button-face) var(--color-button-shadow) var(--color-button-face) var(--color-button-highlight);
+					}
+				}
 			}
 			&-updater {
 				left: 3px;
 			}
 			&-stats {
-				left: calc(3px + 15ch);
+				left: calc(3px + 11ch + 3px + 8px + 10ch);
+			}
+			/#yous {
+				left: calc(12px + 11ch + 8px + 10ch + 31ch);
 			}
 		}
 	}
-	#yous {
-		// Align to the right, until separators are implemented
-		right: 3px;
-	}
+
 	#update {
 		&r {
 			text-align: left !important;
 		}
-		&-status {
-			width: 3ch;
+		&-status,
+		&-timer {
+			text-align: right;
 			display: inline-block;
 		}
-		&-timer {
-			margin-left: 1ch;
+		&-status {
+			width: 11ch;
+			position: relative;
 
-			&:not(.empty)::after {
+			&.empty::before {
+				content: '\00a0';
+			}
+		}
+		&-timer {
+			margin-left: 8px;
+			width: 9ch;
+
+			&[class=""]::after {
 				content: ' seconds';
 				white-space: pre;
+			}
+			&.loading::before {
+				content: 'Updating';
 			}
 		}
 	}
@@ -1198,10 +1256,30 @@ pseudoelement() {
 			border: 1px solid var(--button-3d-border-color-inverted);
 		}
 	}
-	.win95-userscript > body::after {
-		bottom: calc(var(--font-size) * var(--font-line) + 4px);
-		height: 2px;
-		background-color: var(--color-button-face);
+	.win95-userscript {
+		height: 100%;
+
+		& > body {
+			padding: 0 !important;
+			margin: 0;
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			display: flex;
+			flex-direction: column;
+
+			&::after {
+				bottom: calc(var(--font-size) * var(--font-line) + 4px);
+				height: 2px;
+				background-color: var(--color-button-face);
+			}
+		}
+
+		#header-bar {
+			position: sticky !important;
+			top: 0;
+		}
 	}
 
 	// Statusbars

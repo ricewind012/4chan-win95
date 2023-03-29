@@ -34,126 +34,143 @@ const make = (tag, attrs, parent, prepend = false) => {
 	return el
 }
 
-const header = $('#header-bar')
-
 document.documentElement.classList.add('win95-userscript')
 
 /**
  * Content
 **/
-// Move dialogs to body to move the scrollbar below the header
-// The delay lets the catalog load
-// TODO: kills post preview
-setTimeout(() => {
+// Move the content to a wrapper in body to move the scrollbar
+try {
 	let dialogs = $$('body > .dialog')
 
 	dialogs.forEach(e => document.body.removeChild(e))
 	document.body.innerHTML = `<main id="content">${document.body.innerHTML}</main>`
-	document.body.style = 'padding: 0; margin: 0; position: fixed; width: 100%; height: 100%; overflow: hidden; display: flex; flex-direction: column;'
-	document.documentElement.style = 'height: 100%;'
-	header.style = 'position: sticky; top: 0;'
 	dialogs.forEach(e => document.body.prepend(e))
-}, /\/\w+\/$/.test(location.href) ? 1000 : 0)
-
-// Menu bar
-const tabs = {
-	'Main': [
-		'Miscellaneous',
-		'Linkification',
-		'Filtering',
-		'Images & Videos',
-		'Menu',
-		'Monitoring',
-		'Posting & Captchas',
-		'Quote Links'
-	],
-
-	// TODO: God knows why changing select's selectedIndex does not work
-	'Filter': [
-		/*
-		'Guide',
-		'General',
-		'Post Number',
-		'Name',
-		'Unique ID',
-		'Tripcode',
-		'Capcode',
-		'Pass Date',
-		'Email',
-		'Subject',
-		'Comment',
-		'Flag',
-		'Filename',
-		'Image Dimensions',
-		'Filesize',
-		'Image MD5'
-		*/
-	],
-
-	'Sauce': [ ],
-
-	'Advanced': [
-		'Archives',
-		'External Catalog',
-		'Override 4chan Image Host',
-		'Captcha Language',
-		'Custom Board Navigation',
-		'Time Formatting',
-		'Quote Backlinks Formatting',
-		'Default Pasted Content Filename',
-		'File Info Formatting',
-		'Quick Reply Personas',
-		'Unread Favicon',
-		'Thread Updater',
-		'Custom Cooldown Time',
-		'Custom CSS',
-		'JavaScript Whitelist',
-		'Known Banners'
-	],
-
-	'Keybinds': [ ]
+} catch (e) {
+	location.reload()
 }
 
-let menubar = make('span', { id: 'menubar' }, header, true)
+document.addEventListener('4chanXInitFinished', () => {
+	// Menu bar
+	let tabs = {
+		'Main': [
+			'Miscellaneous',
+			'Linkification',
+			'Filtering',
+			'Images & Videos',
+			'Menu',
+			'Monitoring',
+			'Posting & Captchas',
+			'Quote Links'
+		],
 
-for (let k in tabs) {
-	let a = tabs[k]
+		'Filter': [
+			'Guide',
+			'General',
+			'Post Number',
+			'Name',
+			'Unique ID',
+			'Tripcode',
+			'Capcode',
+			'Pass Date',
+			'Email',
+			'Subject',
+			'Comment',
+			'Flag',
+			'Filename',
+			'Image Dimensions',
+			'Filesize',
+			'Image MD5'
+		],
 
-	let tabname = str2id(k)
-	let tab = make('span', { id: `menubar-${tabname}`, class: 'shortcut' }, menubar)
-	let tablink = make('a', { title: k }, tab)
-	tablink.textContent = k
+		'Sauce': [ ],
 
-	tab.onclick = () => {
-		let tabmenu = $('#menu', tab)
+		'Advanced': [
+			'Archives',
+			'External Catalog',
+			'Override 4chan Image Host',
+			'Captcha Language',
+			'Custom Board Navigation',
+			'Time Formatting',
+			'Quote Backlinks Formatting',
+			'Default Pasted Content Filename',
+			'File Info Formatting',
+			'Quick Reply Personas',
+			'Unread Favicon',
+			'Thread Updater',
+			'Custom Cooldown Time',
+			'Custom CSS',
+			'JavaScript Whitelist',
+			'Known Banners'
+		],
 
-		if (!a.length)
-			return
-		if (tabmenu) {
-			tab.removeChild(tabmenu)
-			return
-		}
-
-		let menu = make('div', { id: 'menu', class: 'dialog' }, tab)
-
-		for (let i = 0; i < a.length; i++) {
-			let menulink = make('a', {
-				id: `menu-${str2id(a[i])}`,
-				class: 'entry',
-				href: 'test'
-			}, menu)
-			menulink.textContent = a[i]
-
-			menulink.onclick = () => {
-				$('.settings-link').click()
-				$(`.tab-${tabname}`).click()
-
-				if (tabname === 'main' || tabname === 'advanced')
-					$(`fieldset:nth-child(${i + (tabname === 'main' ? 2 : 1)})`).scrollIntoView()
-			}
-		}
+		'Keybinds': [ ]
 	}
-}
+
+	let header = $('#header-bar')
+	let menubar = make('span', { id: 'menubar' }, header, true)
+
+	for (let k in tabs) {
+		let a = tabs[k]
+
+		let tabname = str2id(k)
+		let tab = make('span', { id: `menubar-${tabname}`, class: 'shortcut' }, menubar)
+		let tablink = make('a', { title: k, href: 'javascript:;' }, tab)
+		tablink.textContent = k
+
+		tab.addEventListener('click', () => {
+			let tabmenu = $('#menu', tab)
+
+			if (!a.length) {
+				document.dispatchEvent(new CustomEvent('OpenSettings', {
+					bubbles: true,
+					detail: k
+				}))
+				return
+			}
+			if (tabmenu) {
+				tab.removeChild(tabmenu)
+				return
+			}
+
+			let menu = make('div', { id: 'menu', class: 'dialog' }, tab)
+
+			for (let i = 0; i < a.length; i++) {
+				let menulink = make('a', {
+					id: `menu-${str2id(a[i])}`,
+					class: 'entry',
+					href: 'javascript:;'
+				}, menu)
+				menulink.textContent = a[i]
+
+				menulink.addEventListener('click', () => {
+					document.dispatchEvent(new CustomEvent('OpenSettings', {
+						bubbles: true,
+						detail: k
+					}))
+
+					switch (tabname) {
+						case 'main':
+						case 'advanced':
+							$(`fieldset:nth-child(${i + (tabname === 'main' ? 2 : 1)})`).scrollIntoView()
+							break
+
+						case 'filter':
+							let fselect = $('.section-filter > select')
+
+							fselect.selectedIndex = i
+							fselect.dispatchEvent(new Event('change'))
+							break
+					}
+				})
+			}
+		})
+	}
+
+	// Check if the page is broken, and reload, if so
+	if ($('body > #bottom, body > form'))
+		location.reload()
+})
 
 /**
  * Settings dialog
