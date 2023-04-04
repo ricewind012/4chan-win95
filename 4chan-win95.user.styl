@@ -122,16 +122,6 @@ pseudoelement() {
 	.fa::before {
 		font-size: var(--font-size);
 	}
-	a, a:visited,
-	.quotelink {
-		color: var(--color-link) !important;
-		text-decoration: none !important;
-
-		&:hover {
-			color: var(--color-link) !important;
-			text-decoration: underline !important;
-		}
-	}
 	code, pre {
 		font: var(--font-monospace) !important;
 	}
@@ -536,6 +526,16 @@ pseudoelement() {
 		& > section {
 			margin: 14px;
 		}
+
+		a {
+			color: var(--color-link);
+			text-decoration: none !important;
+
+			&:hover {
+				color: var(--color-link) !important;
+				text-decoration: underline !important;
+			}
+		}
 	}
 	.sections-list {
 		font-size: 0;
@@ -587,6 +587,7 @@ pseudoelement() {
 		}
 
 		& > a {
+			@extend .section-container a
 			font-size: var(--font-size);
 		}
 	}
