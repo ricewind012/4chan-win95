@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        W9x for 4chan stuff
 // @description Helper userscript
-// @version     0.3
+// @version     0.4
 // @author      (You)
 //
 // @namespace   https://github.com/2641a40fd44383320adde4b027a1d0b03bd550/4chan-win95
