@@ -414,7 +414,7 @@ pseudoelement() {
 		border-color: var(--button-3d-border-color) !important;
 		border-radius: 0 !important;
 		box-shadow: var(--window-3d-box-shadow) !important;
-		padding: 1px !important;
+		padding: 2px !important;
 
 		& > .move,
 		& > nav::before {
@@ -422,10 +422,20 @@ pseudoelement() {
 			color: var(--color-active-caption-text) !important;
 			font-weight: 700;
 			padding: 2px !important;
+			padding-left: 20px !important;
 			height: 14px;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
+		}
+		& > .move::before,
+		& > nav::after {
+			content: '';
+			position: absolute;
+			left: 4px;
+			width: 16px;
+			height: 16px;
+			background-image: var(--img);
 		}
 		.close {
 			// TODO: sometimes it doesn't need 1px, magic happens
@@ -450,6 +460,7 @@ pseudoelement() {
 	// https://github.com/ccd0/4chan-x/wiki
 	[href="https://www.4chan-x.net/"] {
 		top: -14px;
+		right: 21px;
 		box-sizing: border-box;
 
 		/#t-help, & {
@@ -459,11 +470,10 @@ pseudoelement() {
 			width: 14px !important;
 			height: 12px !important;
 			position: absolute;
-			right: 22px;
 			z-index: 1;
 		}
 		/#t-help, .win95-userscript & {
-			top: 4px;
+			top: 5px;
 		}
 	}
 
@@ -472,6 +482,7 @@ pseudoelement() {
 		background-color: unset;
 	}
 	#fourchanx-settings {
+		--img: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAM1BMVEUAAABmZgCZmZn/+/Dn59aZmQD//5kzMwAcHBzAwMDMzGZNTU0AAADq6upmZmYzAACtqZA/egufAAAAAXRSTlMAQObYZgAAAHJJREFUGNNNzVESgyAMRVEu8QVLBdz/aosU1DvDzyGThPgURtG22XfBZ9/3uJU3mMU18QC8oC/EjBvOlE5cBGleoegCGQvEBWhCcneycDcGkPAM2cUETG6eZceAgolmudElhForJOBooPCP1F//XLBw9APHJgNeldevuwAAAABJRU5ErkJggg==');
 		padding: 0;
 		min-width: 438px;
 		max-width: 100vh;
@@ -493,6 +504,10 @@ pseudoelement() {
 				left: 0;
 				top: -17px;
 				right: 0;
+			}
+			&::after {
+				left: 2px;
+				top: -15px;
 			}
 		}
 		.close {
@@ -904,6 +919,7 @@ pseudoelement() {
 
 	// Quick reply
 	#qr {
+		--img: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAbUExURQAAAP///4eIjwAAqMDHyAAA/6ioV///AAAAALn7m+4AAAAJdFJOU///////////AFNPeBIAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABeSURBVAjXNYwxCoAwEARX0lypotcH/II/EHvxA2KT2h8EbPbZ3iVxqmEXBhSHRB6N3iR2jryIgzHJ2iQcWDYnzG3BWUUR6pUulEWfW4okBf3aAaEvsCD/MlvQJMMhP36fFGstedZMAAAAAElFTkSuQmCC');
 		border-radius: 0;
 		padding: 0;
 
@@ -982,6 +998,9 @@ pseudoelement() {
 			height: unset !important;
 			vertical-align: bottom !important;
 		}
+		&-help {
+			right: 23px;
+		}
 		&-resp {
 			height: 19px !important;
 		}
@@ -992,6 +1011,8 @@ pseudoelement() {
 
 	// Thread watcher
 	#thread-watcher {
+		--img: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAVUExURYeIj///AP///8DHyKgAVwAAAAAAAPtS9rYAAAAHdFJOU////////wAaSwNGAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAaklEQVQIHQXBwQ3DIBBFwa9dpQEi3w2Cux2JCtzAysicfeH1X0JmBAAgQACCNwkQmGeBeHO9ihD2lHol6d3ySNWaLNzulId8i3O/mzR+Z7NvdIUf+Wg+tcJVoiNWePeJYMWng4D1TBAAwB/9fyBfQunhXQAAAABJRU5ErkJggg==');
+
 		.close {
 			position: unset !important;
 		}
