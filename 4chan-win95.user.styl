@@ -459,8 +459,7 @@ pseudoelement() {
 	// TODO: maybe make it a wiki link or something
 	// https://github.com/ccd0/4chan-x/wiki
 	[href="https://www.4chan-x.net/"] {
-		top: -14px;
-		right: 21px;
+		right: calc(12.5vw + 6px + 18px) !important;
 		box-sizing: border-box;
 
 		/#t-help, & {
@@ -470,10 +469,13 @@ pseudoelement() {
 			width: 14px !important;
 			height: 12px !important;
 			position: absolute;
+			top: 5px;
 			z-index: 1;
 		}
-		/#t-help, .win95-userscript & {
-			top: 5px;
+		/#fourchanx-settings .close, & {
+			position: fixed;
+			top: calc(12.5vh + 6px);
+			right: calc(12.5vw + 6px);
 		}
 	}
 
@@ -488,32 +490,26 @@ pseudoelement() {
 		max-width: 100vh;
 		height: 75vh;
 		position: relative;
-		resize: both;
-		overflow: auto;
 
 		& > nav {
 			padding: 8px 10px;
 			padding-bottom: 0;
 			margin-top: 17px;
-			position: relative;
 			z-index: 1;
 
 			&::before {
 				content: 'Settings';
 				position: absolute;
-				left: 0;
-				top: -17px;
-				right: 0;
+				left: 2px;
+				top: 2px;
+				right: 2px;
 			}
 			&::after {
-				left: 2px;
-				top: -15px;
+				left: 4px;
+				top: 4px;
 			}
 		}
 		.close {
-			position: absolute;
-			top: -14px;
-			right: 3px;
 			height: 9px;
 			padding-bottom: 1px !important;
 
@@ -533,6 +529,7 @@ pseudoelement() {
 		padding: 0;
 		margin: 8px;
 		margin-top: 1px;
+		margin-bottom: calc(26px + var(--font-size) * var(--font-line));
 		border: 1px solid;
 		border-color: var(--button-3d-border-color);
 		box-shadow: var(--window-3d-box-shadow);
@@ -585,21 +582,14 @@ pseudoelement() {
 	}
 	.credits {
 		font-size: 0;
+		margin: 8px;
+		margin-top: 0;
 		display: flex;
 		align-items: center;
 		gap: 3px;
-		margin-right: -5px;
-		margin-top: -3px;
-
-		.win95-userscript & {
-			margin: 8px;
-			margin-top: 0;
-
-			& > .close {
-				top: 4px !important;
-				z-index: 1;
-			}
-		}
+		position: absolute;
+		left: 3px;
+		bottom: 2px;
 
 		& > a {
 			@extend .section-container a
@@ -647,6 +637,14 @@ pseudoelement() {
 				content: '...';
 				font: var(--font);
 			}
+		}
+	}
+	[href="https://github.com/ccd0/4chan-x/blob/master/CHANGELOG.md"] {
+		&::before {
+			content: 'Version: ';
+		}
+		&::after {
+			content: ' (Changelog)';
 		}
 	}
 
@@ -744,13 +742,8 @@ pseudoelement() {
 			}
 			& > select {
 				position: absolute;
-				top: 24px;
 				right: 8px;
-
-				.win95-userscript & {
-					top: unset;
-					bottom: 25px;
-				}
+				bottom: 12px;
 			}
 		}
 		&-advanced .note {
@@ -780,7 +773,7 @@ pseudoelement() {
 			gap: 0;
 			position: absolute;
 			right: 10px;
-			bottom: 24px;
+			bottom: 10px;
 
 			&::before {
 				content: 'Show Field';
@@ -1275,7 +1268,10 @@ pseudoelement() {
 			right: 1px;
 			bottom: 1px;
 			height: calc(var(--font-size) * var(--font-line));
+			background-color: var(--color-button-face);
+			padding: 1px 15px 1px 2px;
 			border: 1px solid var(--button-3d-border-color-inverted);
+			box-shadow: var(--box-3d-box-shadow);
 		}
 	}
 	.win95-userscript {
@@ -1301,19 +1297,6 @@ pseudoelement() {
 		#header-bar {
 			position: sticky !important;
 			top: 0;
-		}
-	}
-
-	// Statusbars
-	.statusbar {
-		display: flex;
-		justify-content: space-between;
-
-		/#content::after, & {
-			background-color: var(--color-button-face);
-			color: var(--color-button-text);
-			box-shadow: var(--box-3d-box-shadow);
-			padding: 1px 15px 1px 2px;
 		}
 	}
 }
