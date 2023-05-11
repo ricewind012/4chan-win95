@@ -122,8 +122,14 @@ pseudoelement() {
 	.fa::before {
 		font-size: var(--font-size);
 	}
-	code, pre {
+	code, pre, kbd {
 		font: var(--font-monospace) !important;
+	}
+	table {
+		border-spacing: 4px;
+	}
+	td {
+		font: var(--font);
 	}
 	hr {
 		border-top: 1px solid var(--color-button-highlight);
@@ -176,11 +182,11 @@ pseudoelement() {
 		/button,
 		&[type="button"],
 		&[type="submit"] {
-			background-color: var(--color-button-face);
-			color: var(--color-button-text);
+			background-color: var(--color-button-face) !important;
+			color: var(--color-button-text) !important;
 			border-color: var(--button-3d-border-color-exact) !important;
 			box-shadow: var(--button-3d-box-shadow-exact);
-			padding: 3px 0;
+			padding: 3px 0 !important;
 			margin: 0 6px;
 			width: 74px;
 			height: unset;
@@ -459,7 +465,8 @@ pseudoelement() {
 	// TODO: maybe make it a wiki link or something
 	// https://github.com/ccd0/4chan-x/wiki
 	[href="https://www.4chan-x.net/"] {
-		right: calc(12.5vw + 6px + 18px) !important;
+		top: -14px;
+		right: 23px;
 		box-sizing: border-box;
 
 		/#t-help, & {
@@ -469,13 +476,10 @@ pseudoelement() {
 			width: 14px !important;
 			height: 12px !important;
 			position: absolute;
-			top: 5px;
 			z-index: 1;
 		}
-		/#fourchanx-settings .close, & {
-			position: fixed;
-			top: calc(12.5vh + 6px);
-			right: calc(12.5vw + 6px);
+		/#t-help, .win95-userscript & {
+			top: 5px;
 		}
 	}
 
@@ -492,26 +496,30 @@ pseudoelement() {
 		position: relative;
 
 		& > nav {
-			padding: 8px 10px;
+			padding: 8px;
 			padding-bottom: 0;
 			margin-top: 17px;
+			position: relative;
 			z-index: 1;
 
 			&::before {
 				content: 'Settings';
 				position: absolute;
-				left: 2px;
-				top: 2px;
-				right: 2px;
+				left: 0;
+				top: -17px;
+				right: 0;
 			}
 			&::after {
-				left: 4px;
-				top: 4px;
+				left: 2px;
+				top: -15px;
 			}
 		}
 		.close {
 			height: 9px;
 			padding-bottom: 1px !important;
+			position: absolute;
+			top: -14px;
+			right: 4px;
 
 			&::before {
 				display: none;
@@ -527,9 +535,8 @@ pseudoelement() {
 	}
 	.section-container {
 		padding: 0;
-		margin: 8px;
+		margin: 8px 6px;
 		margin-top: 1px;
-		margin-bottom: calc(26px + var(--font-size) * var(--font-line));
 		border: 1px solid;
 		border-color: var(--button-3d-border-color);
 		box-shadow: var(--window-3d-box-shadow);
@@ -582,18 +589,28 @@ pseudoelement() {
 	}
 	.credits {
 		font-size: 0;
-		margin: 8px;
-		margin-top: 0;
+		margin-right: -5px;
+		margin-top: -5px;
 		display: flex;
 		align-items: center;
 		gap: 3px;
-		position: absolute;
-		left: 3px;
-		bottom: 2px;
+
+		.win95-userscript & {
+			margin: 8px 6px;
+			margin-top: 0;
+
+			& > .close {
+				top: 5px !important;
+				z-index: 1;
+			}
+		}
 
 		& > a {
-			@extend .section-container a
 			font-size: var(--font-size);
+
+			&[href] {
+				@extend .section-container a;
+			}
 		}
 	}
 	#sauce-doc > label,
@@ -653,7 +670,7 @@ pseudoelement() {
 		border-radius: 0 !important;
 		box-shadow: var(--group-3d-box-shadow);
 		padding: 12px 8px 4px 8px !important;
-		margin: 0 0 6px 0 !important;
+		margin: 0 0 8px 0 !important;
 		position: relative;
 	}
 	legend {
@@ -742,8 +759,16 @@ pseudoelement() {
 			}
 			& > select {
 				position: absolute;
-				right: 8px;
-				bottom: 12px;
+				top: 24px;
+				right: 6px;
+
+				.win95-userscript & {
+					top: unset;
+					bottom: 13px;
+				}
+			}
+			ul {
+				padding-bottom: 4px;
 			}
 		}
 		&-advanced .note {
@@ -772,7 +797,7 @@ pseudoelement() {
 			margin: 0;
 			gap: 0;
 			position: absolute;
-			right: 10px;
+			right: 8px;
 			bottom: 10px;
 
 			&::before {
@@ -826,10 +851,12 @@ pseudoelement() {
 	.gallery-link,
 	[title="Fappe Tyme"]:not(:first-child),
 	[title="Maximum number of replies to show."],
+	[title="Open videos with the sound unmuted."],
 	[data-type="header"] .submenu > [href="javascript:;"],
 
 	.edit-link,
 	.toggle-you,
+	.copy-text-link,
 	[data-type="post"] > [style="order: 60;"],
 
 	[title="Show what page watched threads are on."],
@@ -867,11 +894,17 @@ pseudoelement() {
 			z-index: -1;
 		}
 	}
+	.has-submenu::after {
+		background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAHCAYAAAAvZezQAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAAySURBVBhXRY3JDQAwCMOS7r8zxZEAPzgsDkuqhhwewXalayJgZFYohp0Abq2YwxH3RfqHzhAHIWlRxQAAAABJRU5ErkJggg==');
+		border: none;
+		margin: 0;
+		right: 4px;
+		width: 4px;
+		height: 7px;
+	}
 	.entry {
 		font: var(--font) !important;
-		padding: 1px;
-		padding-left: 20px;
-		padding-right: calc(0.5em + 12px);
+		padding: 1px 20px;
 		display: flex;
 		align-items: center;
 
@@ -880,12 +913,14 @@ pseudoelement() {
 			text-decoration: none !important;
 		}
 		&.focused {
+			--color-gray-text: var(--color-active-caption-text);
 			background-color: var(--color-active-caption) !important;
 			color: var(--color-active-caption-text) !important;
 
+			&::after,
 			[name="Prune Replies"],
 			& > input[type="checkbox"] {
-				filter: invert();
+				filter: invert() !important;
 			}
 		}
 		.left > &.has-submenu {
@@ -908,6 +943,12 @@ pseudoelement() {
 				margin-right: 0;
 			}
 		}
+		.shortcut-text {
+			opacity: 1;
+			font: var(--font);
+			color: var(--color-gray-text);
+			margin-right: -16px;
+		}
 	}
 
 	// Quick reply
@@ -916,10 +957,6 @@ pseudoelement() {
 		border-radius: 0;
 		padding: 0;
 
-		&-filename,
-		&-no-file {
-			margin-right: 2px !important;
-		}
 		&-filename {
 			box-shadow: none;
 			padding: 0 !important;
@@ -928,10 +965,11 @@ pseudoelement() {
 
 			&-container {
 				font: var(--font);
+				gap: 4px;
 				height: 19px;
 
 				& > a {
-					margin-right: 4px;
+					margin: 0;
 				}
 			}
 		}
@@ -940,33 +978,41 @@ pseudoelement() {
 			padding: 0;
 		}
 
+		/#sjis-toggle,
+		&.sjis-preview textarea {
+			font: 12px 'IPAMonaPGothic', 'Mona', 'MS PGothic', monospace !important;
+		}
+
 		& > form {
 			padding: 8px;
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
 		}
 		.persona {
-			margin-right: -2px !important;
+			gap: 4px;
+			align-items: end;
 			width: unset;
 
-			& > input {
-				&:first-of-type {
-					margin-left: 0;
-				}
+			& > * {
+				margin: 0;
+			}
+			& > button {
+				background-image: none;
+				padding-top: 1px !important;
+				flex-basis: 37px;
+				height: calc(var(--font-size) * var(--font-line) + 8px);
 			}
 		}
 		textarea {
-			margin-top: 4px !important;
-			min-width: 100%;
-
 			/input, & {
 				margin: 0;
 			}
 		}
 	}
-	#dump-button {
-		margin-right: 0 !important;
-	}
 	#file-n-submit {
 		margin: 0 -6px;
+		align-items: end;
 		height: unset;
 
 		& > input {
@@ -975,12 +1021,13 @@ pseudoelement() {
 		}
 	}
 	.captcha {
-		&-root {
-			margin-top: 6px;
-		}
 		&-root,
 		&-container {
 			position: unset !important;
+		}
+		&-container > input[type="button"] {
+			vertical-align: top !important;
+			height: 19px !important;
 		}
 	}
 	#t {
@@ -995,10 +1042,14 @@ pseudoelement() {
 			right: 23px;
 		}
 		&-resp {
-			height: 19px !important;
+			text-transform: unset !important;
 		}
 		&-cnt {
-			margin: 6px auto !important;
+			margin: 4px auto !important;
+		}
+		&-msg {
+			font: var(--font) !important;
+			top: 67.5% !important;
 		}
 	}
 
@@ -1061,17 +1112,21 @@ pseudoelement() {
 			font-weight: normal;
 		}
 		.watcher-link {
-			// TODO: not sure if this should be link-colored
 			color: inherit !important;
 			padding: 0 3px;
 			width: 100%;
 			align-items: center;
+
+			&:hover {
+				text-decoration: underline;
+			}
 		}
 	}
 
 	// Header
 	#header-bar {
 		font: var(--font) !important;
+		padding: 1px !important;
 		border: none !important;
 		box-shadow: none !important;
 		display: flex;

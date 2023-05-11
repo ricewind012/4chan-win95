@@ -172,3 +172,13 @@ document.addEventListener('4chanXInitFinished', () => {
 		location.reload()
 })
 
+/**
+ * Settings dialog
+**/
+document.addEventListener('OpenSettings', () => {
+	let dialog = $('#fourchanx-settings')
+
+	// Move credits (right hand links) to the bottom
+	if (!$('#fourchanx-settings > .credits')) // the event also fires on tab change
+		dialog.appendChild($('.credits'))
+})
