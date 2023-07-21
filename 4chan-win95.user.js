@@ -20,26 +20,51 @@ const $ = (s, p = document) => p.querySelector(s)
 const $$ = s => document.querySelectorAll(s)
 const str2id = s => s.replace(/\W+/g, '-').toLowerCase()
 
+const openSettings = s =>
+	document.dispatchEvent(new CustomEvent('OpenSettings', {
+		bubbles: true,
+		detail: s
+	}))
+
 const make = (tag, attrs, parent, prepend = false) => {
 	let el = document.createElement(tag)
 
 	for (let k in attrs)
 		el.setAttribute(k, attrs[k])
 
-	if (prepend)
-		parent.prepend(el)
-	else
-		parent.appendChild(el)
+	parent[prepend ? 'prepend' : 'appendChild'](el)
 
 	return el
 }
+
+const wait = (selector, parent = document) => new Promise(resolve => {
+	let el = parent.querySelector(selector)
+
+	if (el)
+		resolve(el)
+
+	let observer = new MutationObserver(() => {
+		let el = parent.querySelector(selector)
+
+		if (!el)
+			return
+
+		resolve(el)
+		observer.disconnect()
+	})
+
+	observer.observe(document.body, {
+		subtree: true,
+		childList: true
+	})
+})
 
 document.documentElement.classList.add('win95-userscript')
 
 /**
  * Content
 **/
-// Move the content to a wrapper in body to move the scrollbar
+// Move the content to a body wrapper to move the scrollbar
 try {
 	let dialogs = $$('body > .dialog')
 
@@ -108,58 +133,64 @@ document.addEventListener('4chanXInitFinished', () => {
 	}
 
 	let header = $('#header-bar')
-	let menubar = make('span', { id: 'menubar' }, header, true)
+	let menuBar = make('span', {
+		id: 'menubar'
+	}, header, true)
 
 	for (let k in tabs) {
-		let a = tabs[k]
+		let v = tabs[k]
 
-		let tabname = str2id(k)
-		let tab = make('span', { id: `menubar-${tabname}`, class: 'shortcut' }, menubar)
-		let tablink = make('a', { title: k, href: 'javascript:;' }, tab)
-		tablink.textContent = k
+		let tabName = str2id(k)
+		let tab     = make('span', {
+			id:    `menubar-${tabName}`,
+			class: 'shortcut'
+		}, menuBar)
+		let tabLink = make('a', {
+			title: k,
+			href:  'javascript:;'
+		}, tab)
+		tabLink.textContent = k
 
 		tab.addEventListener('click', () => {
-			let tabmenu = $('#menu', tab)
+			let tabMenu = $('#menu', tab)
 
-			if (!a.length) {
-				document.dispatchEvent(new CustomEvent('OpenSettings', {
-					bubbles: true,
-					detail: k
-				}))
+			if (!v.length) {
+				openSettings(k)
 				return
 			}
-			if (tabmenu) {
-				tab.removeChild(tabmenu)
+			if (tabMenu) {
+				tab.removeChild(tabMenu)
 				return
 			}
 
-			let menu = make('div', { id: 'menu', class: 'dialog' }, tab)
+			let menu = make('div', {
+				id:    'menu',
+				class: 'dialog'
+			}, tab)
 
-			for (let i = 0; i < a.length; i++) {
-				let menulink = make('a', {
-					id: `menu-${str2id(a[i])}`,
+			for (let i = 0; i < v.length; i++) {
+				let menuLink = make('a', {
+					id:    `menu-${str2id(v[i])}`,
 					class: 'entry',
-					href: 'javascript:;'
+					href:  'javascript:;'
 				}, menu)
-				menulink.textContent = a[i]
+				menuLink.textContent = v[i]
 
-				menulink.addEventListener('click', () => {
-					document.dispatchEvent(new CustomEvent('OpenSettings', {
-						bubbles: true,
-						detail: k
-					}))
+				menuLink.addEventListener('click', () => {
+					openSettings(k)
 
-					switch (tabname) {
+					switch (tabName) {
 						case 'main':
 						case 'advanced':
-							$(`fieldset:nth-child(${i + (tabname === 'main' ? 2 : 1)})`).scrollIntoView()
+							$(`fieldset:nth-child(${i + (tabName === 'main' ? 2 : 1)})`)
+								.scrollIntoView()
 							break
 
 						case 'filter':
-							let fselect = $('.section-filter > select')
+							let filterSelect = $('.section-filter > select')
 
-							fselect.selectedIndex = i
-							fselect.dispatchEvent(new Event('change'))
+							filterSelect.selectedIndex = i
+							filterSelect.dispatchEvent(new Event('change'))
 							break
 					}
 				})
@@ -175,10 +206,15 @@ document.addEventListener('4chanXInitFinished', () => {
 /**
  * Settings dialog
 **/
-document.addEventListener('OpenSettings', () => {
-	let dialog = $('#fourchanx-settings')
+document.addEventListener('OpenSettings', e => {
+	let target = e.target.children[0]
 
 	// Move credits (right hand links) to the bottom
-	if (!$('#fourchanx-settings > .credits')) // the event also fires on tab change
-		dialog.appendChild($('.credits'))
+	wait('.credits', target).then(e => {
+		// The event also fires on tab change
+		if (e.parentNode.id == 'fourchanx-settings')
+			return
+
+		target.appendChild(e)
+	})
 })
